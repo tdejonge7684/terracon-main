@@ -47,9 +47,8 @@ select option{background:var(--mid)}
 .depth-btn:hover:not(.active){color:var(--text);background:#252829}
 .custom-depth-wrap{margin-top:8px;display:none}
 .custom-depth-wrap.show{display:block}
-.truck-row{display:flex;align-items:center;gap:10px;margin-top:10px}
-.truck-row label{font-size:11px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;font-family:'Barlow Condensed',sans-serif;font-weight:600;white-space:nowrap}
-.truck-row select{flex:1}
+.truck-capacity{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;padding-top:16px;border-top:1px solid var(--border)}
+@media(max-width:480px){.truck-capacity{grid-template-columns:1fr}}
 .calc-btn{width:100%;background:var(--gold);color:var(--black);border:none;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:24px;letter-spacing:4px;text-transform:uppercase;padding:16px;cursor:pointer;transition:background .15s;margin-top:4px}
 .calc-btn:hover{background:var(--gold-dark);color:#fff}
 .results{display:none}
@@ -62,6 +61,7 @@ select option{background:var(--mid)}
 .result-row .label{font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:600}
 .result-row .value{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:700;color:var(--text)}
 .result-row .unit{font-size:13px;color:var(--muted);font-weight:400;margin-left:4px}
+.result-row.hidden{display:none}
 .formula-note{background:var(--mid);border:1px solid var(--border);border-top:none;padding:12px 20px;font-size:12px;color:var(--muted);font-family:'Barlow',sans-serif;line-height:1.7}
 .formula-note strong{color:var(--gold)}
 .ref-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:2px;background:var(--border)}
@@ -209,17 +209,15 @@ footer{text-align:center;padding:20px;font-size:11px;color:var(--border);letter-
         <div class="error" id="err-material">Select a material</div>
       </div>
 
-      <div class="truck-row">
-        <label>Truck:</label>
-        <select id="truck">
-          <option value="14">Tandem — 14 CY</option>
-          <option value="16">Tandem — 16 CY</option>
-          <option value="18">Tandem — 18 CY</option>
-          <option value="20" selected>Tandem — 20 CY</option>
-          <option value="22">Tandem — 22 CY</option>
-          <option value="25">Tri-axle — 25 CY</option>
-          <option value="28">Quad-axle — 28 CY</option>
-        </select>
+      <div class="truck-capacity">
+        <div class="field">
+          <label>Truck Capacity — Cubic Yards <span style="color:#555;text-transform:none;letter-spacing:0">(optional)</span></label>
+          <input type="number" id="truck-cy" placeholder="e.g. 18" min="0" step="any">
+        </div>
+        <div class="field">
+          <label>Truck Capacity — Tons <span style="color:#555;text-transform:none;letter-spacing:0">(optional)</span></label>
+          <input type="number" id="truck-tons" placeholder="e.g. 22" min="0" step="any">
+        </div>
       </div>
 
     </div>
@@ -241,9 +239,13 @@ footer{text-align:center;padding:20px;font-size:11px;color:var(--border);letter-
       <span class="label">Square feet</span>
       <span><span class="value" id="res-sf">—</span><span class="unit">SF</span></span>
     </div>
-    <div class="result-row">
-      <span class="label">Truck loads (approx.)</span>
-      <span><span class="value" id="res-loads">—</span><span class="unit">loads</span></span>
+    <div class="result-row hidden" id="row-loads-cy">
+      <span class="label">Truck loads (by CY)</span>
+      <span><span class="value" id="res-loads-cy">—</span><span class="unit">loads</span></span>
+    </div>
+    <div class="result-row hidden" id="row-loads-tons">
+      <span class="label">Truck loads (by tons)</span>
+      <span><span class="value" id="res-loads-tons">—</span><span class="unit">loads</span></span>
     </div>
     <div class="formula-note" id="formula-note"></div>
   </div>
@@ -286,13 +288,26 @@ function calculate(){
   const matSel=document.getElementById('material'),factor=parseFloat(matSel.value);
   if(!factor){document.getElementById('err-material').classList.add('show');valid=false}
   if(!valid||!sf)return;
-  const cy=(sf*depthFt)/27,tons=cy*factor,truckCY=parseFloat(document.getElementById('truck').value),loads=Math.ceil(cy/truckCY);
+  const cy=(sf*depthFt)/27,tons=cy*factor;
+  const truckCY=parseFloat(document.getElementById('truck-cy').value);
+  const truckTons=parseFloat(document.getElementById('truck-tons').value);
   const matName=matSel.options[matSel.selectedIndex].dataset.label||matSel.options[matSel.selectedIndex].text;
   const depthIn=Math.round(depthFt*12*100)/100;
   document.getElementById('res-tons').textContent=tons.toFixed(1);
   document.getElementById('res-cy').textContent=cy.toFixed(1);
   document.getElementById('res-sf').textContent=Math.round(sf).toLocaleString();
-  document.getElementById('res-loads').textContent=loads;
+  // Truck loads by CY
+  const rowCY=document.getElementById('row-loads-cy');
+  if(!isNaN(truckCY)&&truckCY>0){
+    document.getElementById('res-loads-cy').textContent=Math.ceil(cy/truckCY)+' @ '+truckCY+' CY';
+    rowCY.classList.remove('hidden');
+  }else{rowCY.classList.add('hidden')}
+  // Truck loads by tons
+  const rowTons=document.getElementById('row-loads-tons');
+  if(!isNaN(truckTons)&&truckTons>0){
+    document.getElementById('res-loads-tons').textContent=Math.ceil(tons/truckTons)+' @ '+truckTons+' tons';
+    rowTons.classList.remove('hidden');
+  }else{rowTons.classList.add('hidden')}
   const formula=mode==='lwh'?`<strong>${document.getElementById('length').value} ft</strong> x <strong>${document.getElementById('width').value} ft</strong> = ${Math.round(sf).toLocaleString()} SF &rarr; ${depthIn}" deep &rarr; <strong>${cy.toFixed(2)} CY in-place</strong> x <strong>${factor}</strong> (${matName}) = <strong>${tons.toFixed(1)} tons</strong>`:`<strong>${Math.round(sf).toLocaleString()} SF</strong> x <strong>${depthIn}"</strong> &divide; 27 = <strong>${cy.toFixed(2)} CY in-place</strong> x <strong>${factor}</strong> (${matName}) = <strong>${tons.toFixed(1)} tons</strong>`;
   document.getElementById('formula-note').innerHTML=formula;
   const results=document.getElementById('results');results.classList.add('show');results.scrollIntoView({behavior:'smooth',block:'nearest'})
