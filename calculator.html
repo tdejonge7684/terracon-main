@@ -34,9 +34,10 @@ nav{background:var(--dark);border-bottom:1px solid var(--border);display:flex;al
 .input-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
 @media(max-width:560px){.input-grid{grid-template-columns:1fr 1fr}.input-grid-2{grid-template-columns:1fr}}
 .field label{display:block;font-size:11px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:6px;font-family:'Barlow Condensed',sans-serif;font-weight:600}
-input[type=number],select{width:100%;background:var(--mid);border:1px solid var(--border);color:var(--text);font-family:'Barlow',sans-serif;font-size:16px;padding:11px 14px;outline:none;border-radius:0;-webkit-appearance:none;transition:border-color .15s}
-input[type=number]:focus,select:focus{border-color:var(--gold)}
-input[type=number]::placeholder{color:var(--border)}
+input[type=number],input[type=text],select{width:100%;background:var(--mid);border:1px solid var(--border);color:var(--text);font-family:'Barlow',sans-serif;font-size:16px;padding:11px 14px;outline:none;border-radius:0;-webkit-appearance:none;transition:border-color .15s}
+input[type=number]:focus,input[type=text]:focus,select:focus{border-color:var(--gold)}
+input[type=number]::placeholder,input[type=text]::placeholder{color:var(--border)}
+.readonly-field{background:#111 !important;color:var(--muted) !important;cursor:default}
 select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;background-size:12px;padding-right:36px}
 select option{background:var(--mid)}
 .depth-label{font-size:11px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:6px;font-family:'Barlow Condensed',sans-serif;font-weight:600}
@@ -112,7 +113,7 @@ footer{text-align:center;padding:20px;font-size:11px;color:var(--border);letter-
           </div>
           <div class="field">
             <label>SF Preview</label>
-            <input type="number" id="sf-preview" placeholder="auto" readonly style="background:#111;color:var(--muted);cursor:default">
+            <input type="text" id="sf-preview" placeholder="auto" readonly class="readonly-field">
           </div>
         </div>
       </div>
@@ -211,7 +212,7 @@ footer{text-align:center;padding:20px;font-size:11px;color:var(--border);letter-
 
       <div class="truck-capacity">
         <div class="field">
-          <label>Truck Capacity — Cubic Yards <span style="color:#555;text-transform:none;letter-spacing:0">(optional)</span></label>
+          <label>Truck Capacity — CY <span style="color:#555;text-transform:none;letter-spacing:0">(optional)</span></label>
           <input type="number" id="truck-cy" placeholder="e.g. 18" min="0" step="any">
         </div>
         <div class="field">
@@ -276,8 +277,9 @@ let mode='lwh',depthFt=null;
 function setMode(m){mode=m;document.getElementById('lwh-inputs').style.display=m==='lwh'?'block':'none';document.getElementById('sf-inputs').style.display=m==='sf'?'block':'none';document.getElementById('btn-lwh').classList.toggle('active',m==='lwh');document.getElementById('btn-sf').classList.toggle('active',m==='sf');document.getElementById('results').classList.remove('show')}
 function setDepth(btn){document.querySelectorAll('.depth-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');const val=btn.dataset.in;const wrap=document.getElementById('custom-wrap');if(val==='custom'){wrap.classList.add('show');depthFt=null;document.getElementById('depth-custom').focus()}else{wrap.classList.remove('show');depthFt=parseFloat(val)/12}}
 document.getElementById('depth-custom').addEventListener('input',function(){const v=parseFloat(this.value);depthFt=isNaN(v)||v<=0?null:v/12});
-document.getElementById('length').addEventListener('input',function(){const l=parseFloat(this.value),w=parseFloat(document.getElementById('width').value);document.getElementById('sf-preview').value=(!isNaN(l)&&!isNaN(w)&&l>0&&w>0)?Math.round(l*w).toLocaleString():''});
-document.getElementById('width').addEventListener('input',function(){const l=parseFloat(document.getElementById('length').value),w=parseFloat(this.value);document.getElementById('sf-preview').value=(!isNaN(l)&&!isNaN(w)&&l>0&&w>0)?Math.round(l*w).toLocaleString():''});
+function updateSFPreview(){const l=parseFloat(document.getElementById('length').value),w=parseFloat(document.getElementById('width').value);const out=document.getElementById('sf-preview');if(!isNaN(l)&&!isNaN(w)&&l>0&&w>0){out.value=Math.round(l*w).toLocaleString()+' SF'}else{out.value=''}}
+document.getElementById('length').addEventListener('input',updateSFPreview);
+document.getElementById('width').addEventListener('input',updateSFPreview);
 document.getElementById('sqft').addEventListener('input',function(){const sf=parseFloat(this.value);document.getElementById('lw-equiv').textContent=(!isNaN(sf)&&sf>0)?sf.toLocaleString()+' SF':'—'});
 function calculate(){
   document.querySelectorAll('.error').forEach(e=>e.classList.remove('show'));
@@ -296,18 +298,10 @@ function calculate(){
   document.getElementById('res-tons').textContent=tons.toFixed(1);
   document.getElementById('res-cy').textContent=cy.toFixed(1);
   document.getElementById('res-sf').textContent=Math.round(sf).toLocaleString();
-  // Truck loads by CY
   const rowCY=document.getElementById('row-loads-cy');
-  if(!isNaN(truckCY)&&truckCY>0){
-    document.getElementById('res-loads-cy').textContent=Math.ceil(cy/truckCY)+' @ '+truckCY+' CY';
-    rowCY.classList.remove('hidden');
-  }else{rowCY.classList.add('hidden')}
-  // Truck loads by tons
+  if(!isNaN(truckCY)&&truckCY>0){document.getElementById('res-loads-cy').textContent=Math.ceil(cy/truckCY)+' @ '+truckCY+' CY';rowCY.classList.remove('hidden')}else{rowCY.classList.add('hidden')}
   const rowTons=document.getElementById('row-loads-tons');
-  if(!isNaN(truckTons)&&truckTons>0){
-    document.getElementById('res-loads-tons').textContent=Math.ceil(tons/truckTons)+' @ '+truckTons+' tons';
-    rowTons.classList.remove('hidden');
-  }else{rowTons.classList.add('hidden')}
+  if(!isNaN(truckTons)&&truckTons>0){document.getElementById('res-loads-tons').textContent=Math.ceil(tons/truckTons)+' @ '+truckTons+' tons';rowTons.classList.remove('hidden')}else{rowTons.classList.add('hidden')}
   const formula=mode==='lwh'?`<strong>${document.getElementById('length').value} ft</strong> x <strong>${document.getElementById('width').value} ft</strong> = ${Math.round(sf).toLocaleString()} SF &rarr; ${depthIn}" deep &rarr; <strong>${cy.toFixed(2)} CY in-place</strong> x <strong>${factor}</strong> (${matName}) = <strong>${tons.toFixed(1)} tons</strong>`:`<strong>${Math.round(sf).toLocaleString()} SF</strong> x <strong>${depthIn}"</strong> &divide; 27 = <strong>${cy.toFixed(2)} CY in-place</strong> x <strong>${factor}</strong> (${matName}) = <strong>${tons.toFixed(1)} tons</strong>`;
   document.getElementById('formula-note').innerHTML=formula;
   const results=document.getElementById('results');results.classList.add('show');results.scrollIntoView({behavior:'smooth',block:'nearest'})
