@@ -1,0 +1,15 @@
+﻿# Netlify CLI cache
+.netlify/
+
+# Backup files created by Tyler's scripts
+*.bak
+*.bak2
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+*.swp
+*.tmp
+
+# Screenshots folder (local working screenshots)
+Screenshots/
