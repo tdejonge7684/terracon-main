@@ -26,8 +26,9 @@ nav{background:var(--dark);border-bottom:1px solid var(--border);display:flex;al
 .card-header{padding:16px 20px;border-bottom:1px solid var(--border);font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:14px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:10px}
 .card-header::before{content:'';width:3px;height:14px;background:var(--gold)}
 .card-body{padding:20px}
-.mode-toggle{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border);margin-bottom:20px}
-.mode-btn{padding:12px;background:var(--mid);border:none;color:var(--muted);font-family:'Barlow Condensed',sans-serif;font-size:15px;letter-spacing:1px;cursor:pointer;text-transform:uppercase;transition:all .15s;font-weight:600}
+.mode-toggle{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;background:var(--border);margin-bottom:20px}
+@media(max-width:560px){.mode-toggle{grid-template-columns:1fr}}
+.mode-btn{padding:12px 8px;background:var(--mid);border:none;color:var(--muted);font-family:'Barlow Condensed',sans-serif;font-size:14px;letter-spacing:1px;cursor:pointer;text-transform:uppercase;transition:all .15s;font-weight:600}
 .mode-btn.active{background:var(--gold);color:var(--black)}
 .mode-btn:hover:not(.active){color:var(--text);background:#252829}
 .input-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px}
@@ -38,6 +39,8 @@ input[type=number],input[type=text],select{width:100%;background:var(--mid);bord
 input[type=number]:focus,input[type=text]:focus,select:focus{border-color:var(--gold)}
 input[type=number]::placeholder,input[type=text]::placeholder{color:var(--border)}
 .readonly-field{background:#111 !important;color:var(--muted) !important;cursor:default}
+.equiv-box{font-size:12px;color:var(--muted);padding:12px 14px;background:var(--mid);border:1px solid var(--border);font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:1px}
+.equiv-box .val{color:var(--gold);font-size:14px}
 select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;background-size:12px;padding-right:36px}
 select option{background:var(--mid)}
 .depth-label{font-size:11px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:6px;font-family:'Barlow Condensed',sans-serif;font-weight:600}
@@ -97,8 +100,9 @@ footer{text-align:center;padding:20px;font-size:11px;color:var(--border);letter-
     <div class="card-body">
 
       <div class="mode-toggle">
-        <button class="mode-btn active" id="btn-lwh" onclick="setMode('lwh')">Length × Width × Depth</button>
-        <button class="mode-btn" id="btn-sf" onclick="setMode('sf')">Square Footage × Depth</button>
+        <button class="mode-btn active" id="btn-lwh" onclick="setMode('lwh')">L × W × Depth</button>
+        <button class="mode-btn" id="btn-sf" onclick="setMode('sf')">Sq Ft × Depth</button>
+        <button class="mode-btn" id="btn-syd" onclick="setMode('syd')">Sq Yards × Depth</button>
       </div>
 
       <div id="lwh-inputs">
@@ -125,7 +129,19 @@ footer{text-align:center;padding:20px;font-size:11px;color:var(--border);letter-
             <input type="number" id="sqft" placeholder="e.g. 4800" min="0" step="any">
           </div>
           <div class="field" style="display:flex;flex-direction:column;justify-content:flex-end">
-            <div style="font-size:12px;color:var(--muted);padding:12px 14px;background:var(--mid);border:1px solid var(--border)">= <span id="lw-equiv">—</span></div>
+            <div class="equiv-box">= <span class="val" id="sf-to-syd">—</span> <span style="opacity:0.6">SYD</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="syd-inputs" style="display:none">
+        <div class="input-grid-2">
+          <div class="field">
+            <label>Square yards</label>
+            <input type="number" id="syd" placeholder="e.g. 15100" min="0" step="any">
+          </div>
+          <div class="field" style="display:flex;flex-direction:column;justify-content:flex-end">
+            <div class="equiv-box">= <span class="val" id="syd-to-sf">—</span> <span style="opacity:0.6">SF</span></div>
           </div>
         </div>
       </div>
@@ -237,8 +253,8 @@ footer{text-align:center;padding:20px;font-size:11px;color:var(--border);letter-
       <span><span class="value" id="res-cy">—</span><span class="unit">CY</span></span>
     </div>
     <div class="result-row">
-      <span class="label">Square feet</span>
-      <span><span class="value" id="res-sf">—</span><span class="unit">SF</span></span>
+      <span class="label">Area</span>
+      <span><span class="value" id="res-area">—</span><span class="unit" id="res-area-unit">SF</span></span>
     </div>
     <div class="result-row hidden" id="row-loads-cy">
       <span class="label">Truck loads (by CY)</span>
@@ -266,7 +282,7 @@ footer{text-align:center;padding:20px;font-size:11px;color:var(--border);letter-
     <div class="ref-item"><div class="ref-item-name">Rip Rap / Boulders</div><div class="ref-item-factor">1.40<span class="ref-item-unit"> T/CY</span></div></div>
     <div class="ref-item"><div class="ref-item-name">Compost</div><div class="ref-item-factor">1.00<span class="ref-item-unit"> T/CY</span></div></div>
   </div>
-  <div style="font-size:11px;color:var(--muted);margin-top:8px;font-family:'Barlow',sans-serif">Source: Top Grade 2026 Price Sheet. Tons to order = in-place CY x conversion factor. No additional compaction factor needed when ordering by weight.</div>
+  <div style="font-size:11px;color:var(--muted);margin-top:8px;font-family:'Barlow',sans-serif">Source: Top Grade 2026 Price Sheet. Tons to order = in-place CY x conversion factor. No additional compaction factor needed when ordering by weight. Conversions: 1 SYD = 9 SF, 1 CY = 27 CF.</div>
 
 </div>
 
@@ -274,18 +290,36 @@ footer{text-align:center;padding:20px;font-size:11px;color:var(--border);letter-
 
 <script>
 let mode='lwh',depthFt=null;
-function setMode(m){mode=m;document.getElementById('lwh-inputs').style.display=m==='lwh'?'block':'none';document.getElementById('sf-inputs').style.display=m==='sf'?'block':'none';document.getElementById('btn-lwh').classList.toggle('active',m==='lwh');document.getElementById('btn-sf').classList.toggle('active',m==='sf');document.getElementById('results').classList.remove('show')}
+function setMode(m){
+  mode=m;
+  document.getElementById('lwh-inputs').style.display=m==='lwh'?'block':'none';
+  document.getElementById('sf-inputs').style.display=m==='sf'?'block':'none';
+  document.getElementById('syd-inputs').style.display=m==='syd'?'block':'none';
+  document.getElementById('btn-lwh').classList.toggle('active',m==='lwh');
+  document.getElementById('btn-sf').classList.toggle('active',m==='sf');
+  document.getElementById('btn-syd').classList.toggle('active',m==='syd');
+  document.getElementById('results').classList.remove('show')
+}
 function setDepth(btn){document.querySelectorAll('.depth-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');const val=btn.dataset.in;const wrap=document.getElementById('custom-wrap');if(val==='custom'){wrap.classList.add('show');depthFt=null;document.getElementById('depth-custom').focus()}else{wrap.classList.remove('show');depthFt=parseFloat(val)/12}}
 document.getElementById('depth-custom').addEventListener('input',function(){const v=parseFloat(this.value);depthFt=isNaN(v)||v<=0?null:v/12});
 function updateSFPreview(){const l=parseFloat(document.getElementById('length').value),w=parseFloat(document.getElementById('width').value);const out=document.getElementById('sf-preview');if(!isNaN(l)&&!isNaN(w)&&l>0&&w>0){out.value=Math.round(l*w).toLocaleString()+' SF'}else{out.value=''}}
 document.getElementById('length').addEventListener('input',updateSFPreview);
 document.getElementById('width').addEventListener('input',updateSFPreview);
-document.getElementById('sqft').addEventListener('input',function(){const sf=parseFloat(this.value);document.getElementById('lw-equiv').textContent=(!isNaN(sf)&&sf>0)?sf.toLocaleString()+' SF':'—'});
+document.getElementById('sqft').addEventListener('input',function(){const sf=parseFloat(this.value);document.getElementById('sf-to-syd').textContent=(!isNaN(sf)&&sf>0)?Math.round(sf/9).toLocaleString():'—'});
+document.getElementById('syd').addEventListener('input',function(){const sy=parseFloat(this.value);document.getElementById('syd-to-sf').textContent=(!isNaN(sy)&&sy>0)?Math.round(sy*9).toLocaleString():'—'});
 function calculate(){
   document.querySelectorAll('.error').forEach(e=>e.classList.remove('show'));
   let valid=true,sf;
-  if(mode==='lwh'){const l=parseFloat(document.getElementById('length').value),w=parseFloat(document.getElementById('width').value);if(isNaN(l)||isNaN(w)||l<=0||w<=0)valid=false;else sf=l*w}
-  else{const s=parseFloat(document.getElementById('sqft').value);if(isNaN(s)||s<=0)valid=false;else sf=s}
+  if(mode==='lwh'){
+    const l=parseFloat(document.getElementById('length').value),w=parseFloat(document.getElementById('width').value);
+    if(isNaN(l)||isNaN(w)||l<=0||w<=0)valid=false;else sf=l*w
+  } else if(mode==='sf'){
+    const s=parseFloat(document.getElementById('sqft').value);
+    if(isNaN(s)||s<=0)valid=false;else sf=s
+  } else if(mode==='syd'){
+    const sy=parseFloat(document.getElementById('syd').value);
+    if(isNaN(sy)||sy<=0)valid=false;else sf=sy*9
+  }
   if(!depthFt){document.getElementById('err-depth').classList.add('show');valid=false}
   const matSel=document.getElementById('material'),factor=parseFloat(matSel.value);
   if(!factor){document.getElementById('err-material').classList.add('show');valid=false}
@@ -297,12 +331,27 @@ function calculate(){
   const depthIn=Math.round(depthFt*12*100)/100;
   document.getElementById('res-tons').textContent=tons.toFixed(1);
   document.getElementById('res-cy').textContent=cy.toFixed(1);
-  document.getElementById('res-sf').textContent=Math.round(sf).toLocaleString();
+  // Show area in SYD if mode is syd, otherwise SF
+  if(mode==='syd'){
+    document.getElementById('res-area').textContent=Math.round(sf/9).toLocaleString();
+    document.getElementById('res-area-unit').textContent='SYD';
+  } else {
+    document.getElementById('res-area').textContent=Math.round(sf).toLocaleString();
+    document.getElementById('res-area-unit').textContent='SF';
+  }
   const rowCY=document.getElementById('row-loads-cy');
   if(!isNaN(truckCY)&&truckCY>0){document.getElementById('res-loads-cy').textContent=Math.ceil(cy/truckCY)+' @ '+truckCY+' CY';rowCY.classList.remove('hidden')}else{rowCY.classList.add('hidden')}
   const rowTons=document.getElementById('row-loads-tons');
   if(!isNaN(truckTons)&&truckTons>0){document.getElementById('res-loads-tons').textContent=Math.ceil(tons/truckTons)+' @ '+truckTons+' tons';rowTons.classList.remove('hidden')}else{rowTons.classList.add('hidden')}
-  const formula=mode==='lwh'?`<strong>${document.getElementById('length').value} ft</strong> x <strong>${document.getElementById('width').value} ft</strong> = ${Math.round(sf).toLocaleString()} SF &rarr; ${depthIn}" deep &rarr; <strong>${cy.toFixed(2)} CY in-place</strong> x <strong>${factor}</strong> (${matName}) = <strong>${tons.toFixed(1)} tons</strong>`:`<strong>${Math.round(sf).toLocaleString()} SF</strong> x <strong>${depthIn}"</strong> &divide; 27 = <strong>${cy.toFixed(2)} CY in-place</strong> x <strong>${factor}</strong> (${matName}) = <strong>${tons.toFixed(1)} tons</strong>`;
+  let formula;
+  if(mode==='lwh'){
+    formula=`<strong>${document.getElementById('length').value} ft</strong> x <strong>${document.getElementById('width').value} ft</strong> = ${Math.round(sf).toLocaleString()} SF &rarr; ${depthIn}" deep &rarr; <strong>${cy.toFixed(2)} CY in-place</strong> x <strong>${factor}</strong> (${matName}) = <strong>${tons.toFixed(1)} tons</strong>`;
+  } else if(mode==='sf'){
+    formula=`<strong>${Math.round(sf).toLocaleString()} SF</strong> x <strong>${depthIn}"</strong> &divide; 27 = <strong>${cy.toFixed(2)} CY in-place</strong> x <strong>${factor}</strong> (${matName}) = <strong>${tons.toFixed(1)} tons</strong>`;
+  } else {
+    const syd=sf/9;
+    formula=`<strong>${Math.round(syd).toLocaleString()} SYD</strong> x 9 = ${Math.round(sf).toLocaleString()} SF &rarr; <strong>${depthIn}"</strong> deep &rarr; <strong>${cy.toFixed(2)} CY in-place</strong> x <strong>${factor}</strong> (${matName}) = <strong>${tons.toFixed(1)} tons</strong>`;
+  }
   document.getElementById('formula-note').innerHTML=formula;
   const results=document.getElementById('results');results.classList.add('show');results.scrollIntoView({behavior:'smooth',block:'nearest'})
 }
