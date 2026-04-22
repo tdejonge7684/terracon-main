@@ -65,6 +65,7 @@ select option{background:var(--mid)}
 .result-row .label{font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:600}
 .result-row .value{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:700;color:var(--text)}
 .result-row .unit{font-size:13px;color:var(--muted);font-weight:400;margin-left:4px}
+.result-row.highlight .value{color:var(--gold)}
 .result-row.hidden{display:none}
 .formula-note{background:var(--mid);border:1px solid var(--border);border-top:none;padding:12px 20px;font-size:12px;color:var(--muted);font-family:'Barlow',sans-serif;line-height:1.7}
 .formula-note strong{color:var(--gold)}
@@ -167,60 +168,60 @@ footer{text-align:center;padding:20px;font-size:11px;color:var(--border);letter-
         <label>Material (Top Grade 2026)</label>
         <select id="material">
           <option value="">— Select material —</option>
-          <optgroup label="Aggregate — Crushed (1.40)">
-            <option value="1.40" data-label="MDOT 21AA Crushed Stone">MDOT 21AA Crushed Stone</option>
-            <option value="1.40" data-label="MDOT 22A Road Gravel">MDOT 22A Road Gravel</option>
-            <option value="1.40" data-label="MDOT 23A Road Gravel">MDOT 23A Road Gravel</option>
-            <option value="1.40" data-label="6AA Clean Crush">6AA (3/4" Clean Crush)</option>
-            <option value="1.40" data-label="34G Crushed Stone">34G (3/8" Crushed Stone)</option>
-            <option value="1.40" data-label="1/2 Clean Crush">1/2" Clean Crush (no dust)</option>
-            <option value="1.40" data-label="1/2 Crush w/ Dust">1/2" Crush with Dust</option>
+          <optgroup label="Aggregate — Crushed">
+            <option value="1.40|1.30" data-label="MDOT 21AA Crushed Stone">MDOT 21AA Crushed Stone</option>
+            <option value="1.40|1.30" data-label="MDOT 22A Road Gravel">MDOT 22A Road Gravel</option>
+            <option value="1.40|1.30" data-label="MDOT 23A Road Gravel">MDOT 23A Road Gravel</option>
+            <option value="1.40|1.30" data-label="6AA Clean Crush">6AA (3/4" Clean Crush)</option>
+            <option value="1.40|1.30" data-label="34G Crushed Stone">34G (3/8" Crushed Stone)</option>
+            <option value="1.40|1.30" data-label="1/2 Clean Crush">1/2" Clean Crush (no dust)</option>
+            <option value="1.40|1.30" data-label="1/2 Crush w/ Dust">1/2" Crush with Dust</option>
           </optgroup>
           <optgroup label="Aggregate — Round Stone">
-            <option value="1.40" data-label="34R Pea Stone">34R (3/8" Pea Stone)</option>
-            <option value="1.40" data-label="5/8 Washed Stone">5/8" Washed Stone</option>
-            <option value="1.40" data-label="6A Washed Stone">6A Washed Stone</option>
-            <option value="1.40" data-label="Dry Well Stone">Dry Well Stone (all 1")</option>
-            <option value="1.30" data-label="1x2 Washed Stone">1x2" Washed Stone</option>
-            <option value="1.40" data-label="Oversized Stone 2x8">Oversized Stone (2x8")</option>
-            <option value="1.40" data-label="Plain Rip Rap 8x18">Plain Rip Rap (8x18")</option>
-            <option value="1.40" data-label="Boulders 18+">Boulders (18"+)</option>
-            <option value="1.50" data-label="11A Pea Stone Sand Mix">11A (Pea Stone/Sand Mix)</option>
-            <option value="1.60" data-label="14A 6A Sand Mix">14A (6A/Sand Mix)</option>
+            <option value="1.40|1.30" data-label="34R Pea Stone">34R (3/8" Pea Stone)</option>
+            <option value="1.40|1.30" data-label="5/8 Washed Stone">5/8" Washed Stone</option>
+            <option value="1.40|1.30" data-label="6A Washed Stone">6A Washed Stone</option>
+            <option value="1.40|1.30" data-label="Dry Well Stone">Dry Well Stone (all 1")</option>
+            <option value="1.30|1.25" data-label="1x2 Washed Stone">1x2" Washed Stone</option>
+            <option value="1.40|1.30" data-label="Oversized Stone 2x8">Oversized Stone (2x8")</option>
+            <option value="1.40|1.30" data-label="Plain Rip Rap 8x18">Plain Rip Rap (8x18")</option>
+            <option value="1.40|1.30" data-label="Boulders 18+">Boulders (18"+)</option>
+            <option value="1.50|1.35" data-label="11A Pea Stone Sand Mix">11A (Pea Stone/Sand Mix)</option>
+            <option value="1.60|1.40" data-label="14A 6A Sand Mix">14A (6A/Sand Mix)</option>
           </optgroup>
           <optgroup label="Limestone">
-            <option value="1.35" data-label="17A Limestone">17A Limestone</option>
-            <option value="1.35" data-label="6AA Limestone">6AA Limestone</option>
-            <option value="1.35" data-label="21AA Limestone">21AA Limestone</option>
-            <option value="1.40" data-label="1x3 Limestone">1x3" Limestone</option>
-            <option value="1.40" data-label="Limestone Rip Rap 3x8">Limestone Rip Rap (3x8")</option>
-            <option value="1.40" data-label="LS Plain Rip Rap 8x18">LS Plain Rip Rap (8x18")</option>
+            <option value="1.35|1.25" data-label="17A Limestone">17A Limestone</option>
+            <option value="1.35|1.25" data-label="6AA Limestone">6AA Limestone</option>
+            <option value="1.35|1.25" data-label="21AA Limestone">21AA Limestone</option>
+            <option value="1.40|1.30" data-label="1x3 Limestone">1x3" Limestone</option>
+            <option value="1.40|1.30" data-label="Limestone Rip Rap 3x8">Limestone Rip Rap (3x8")</option>
+            <option value="1.40|1.30" data-label="LS Plain Rip Rap 8x18">LS Plain Rip Rap (8x18")</option>
           </optgroup>
-          <optgroup label="Sand (1.30)">
-            <option value="1.30" data-label="Class II Fill Sand">Class II Fill Sand</option>
-            <option value="1.30" data-label="Class III Fill Sand">Class III Fill Sand</option>
-            <option value="1.30" data-label="2NS Sand">2NS Sand</option>
-            <option value="1.30" data-label="Mortar Sand">Mortar Sand</option>
-            <option value="1.30" data-label="Manufactured Sand">Manufactured Sand</option>
-            <option value="1.35" data-label="2NS Sand w/ Chloride">2NS Sand w/ Chloride</option>
-            <option value="1.30" data-label="Airport Winter Sand">Airport Winter Sand</option>
-            <option value="1.30" data-label="Screened Sand">Screened Sand / Dairy Bedding</option>
+          <optgroup label="Sand">
+            <option value="1.30|1.15" data-label="Class II Fill Sand">Class II Fill Sand</option>
+            <option value="1.30|1.15" data-label="Class III Fill Sand">Class III Fill Sand</option>
+            <option value="1.30|1.15" data-label="2NS Sand">2NS Sand</option>
+            <option value="1.30|1.15" data-label="Mortar Sand">Mortar Sand</option>
+            <option value="1.30|1.15" data-label="Manufactured Sand">Manufactured Sand</option>
+            <option value="1.35|1.15" data-label="2NS Sand w/ Chloride">2NS Sand w/ Chloride</option>
+            <option value="1.30|1.15" data-label="Airport Winter Sand">Airport Winter Sand</option>
+            <option value="1.30|1.15" data-label="Screened Sand">Screened Sand / Dairy Bedding</option>
           </optgroup>
           <optgroup label="Topsoil &amp; Compost">
-            <option value="1.20" data-label="Screened Topsoil">Screened Topsoil</option>
-            <option value="1.30" data-label="Unscreened Topsoil">Unscreened Topsoil</option>
-            <option value="1.00" data-label="Compost">Compost</option>
-            <option value="1.10" data-label="Compost Topsoil Blend">Compost / Topsoil Blend</option>
+            <option value="1.20|1.25" data-label="Screened Topsoil">Screened Topsoil</option>
+            <option value="1.30|1.30" data-label="Unscreened Topsoil">Unscreened Topsoil</option>
+            <option value="1.00|1.15" data-label="Compost">Compost</option>
+            <option value="1.10|1.20" data-label="Compost Topsoil Blend">Compost / Topsoil Blend</option>
           </optgroup>
           <optgroup label="Recycled">
-            <option value="1.40" data-label="Crushed Asphalt RAP Millings">Crushed Asphalt / RAP / Millings</option>
-            <option value="1.30" data-label="22A Crushed Concrete">22A Crushed Concrete</option>
-            <option value="1.30" data-label="21AA Crushed Concrete">21AA Crushed Concrete</option>
-            <option value="1.10" data-label="1x3 Crushed Concrete">1x3" Crushed Concrete</option>
+            <option value="1.40|1.30" data-label="Crushed Asphalt RAP Millings">Crushed Asphalt / RAP / Millings</option>
+            <option value="1.30|1.25" data-label="22A Crushed Concrete">22A Crushed Concrete</option>
+            <option value="1.30|1.25" data-label="21AA Crushed Concrete">21AA Crushed Concrete</option>
+            <option value="1.10|1.15" data-label="1x3 Crushed Concrete">1x3" Crushed Concrete</option>
           </optgroup>
           <optgroup label="Disposal">
-            <option value="1.00" data-label="Asphalt Concrete Disposal">Asphalt / Concrete Disposal</option>
-            <option value="1.40" data-label="Clay Disposal">Clay Disposal</option>
+            <option value="1.00|1.00" data-label="Asphalt Concrete Disposal">Asphalt / Concrete Disposal</option>
+            <option value="1.40|1.30" data-label="Clay Disposal">Clay Disposal</option>
           </optgroup>
         </select>
         <div class="error" id="err-material">Select a material</div>
@@ -244,18 +245,32 @@ footer{text-align:center;padding:20px;font-size:11px;color:var(--border);letter-
 
   <div class="results" id="results">
     <div style="height:12px"></div>
+
+    <!-- PRIMARY: Tons to order -->
     <div class="result-primary">
       <div class="label">Tons to order</div>
       <div><span class="value" id="res-tons">—</span><span class="unit">tons</span></div>
     </div>
+
+    <!-- CY to order loose (for suppliers who sell by the yard) -->
+    <div class="result-row highlight">
+      <span class="label">CY to order <span style="opacity:0.6;font-size:10px">(loose — for yard suppliers)</span></span>
+      <span><span class="value" id="res-cy-loose">—</span><span class="unit">CY</span></span>
+    </div>
+
+    <!-- In-place CY -->
     <div class="result-row">
-      <span class="label">In-place cubic yards</span>
+      <span class="label">In-place CY <span style="opacity:0.6;font-size:10px">(compacted)</span></span>
       <span><span class="value" id="res-cy">—</span><span class="unit">CY</span></span>
     </div>
+
+    <!-- Area -->
     <div class="result-row">
       <span class="label">Area</span>
       <span><span class="value" id="res-area">—</span><span class="unit" id="res-area-unit">SF</span></span>
     </div>
+
+    <!-- Truck loads -->
     <div class="result-row hidden" id="row-loads-cy">
       <span class="label">Truck loads (by CY)</span>
       <span><span class="value" id="res-loads-cy">—</span><span class="unit">loads</span></span>
@@ -264,6 +279,7 @@ footer{text-align:center;padding:20px;font-size:11px;color:var(--border);letter-
       <span class="label">Truck loads (by tons)</span>
       <span><span class="value" id="res-loads-tons">—</span><span class="unit">loads</span></span>
     </div>
+
     <div class="formula-note" id="formula-note"></div>
   </div>
 
@@ -282,7 +298,12 @@ footer{text-align:center;padding:20px;font-size:11px;color:var(--border);letter-
     <div class="ref-item"><div class="ref-item-name">Rip Rap / Boulders</div><div class="ref-item-factor">1.40<span class="ref-item-unit"> T/CY</span></div></div>
     <div class="ref-item"><div class="ref-item-name">Compost</div><div class="ref-item-factor">1.00<span class="ref-item-unit"> T/CY</span></div></div>
   </div>
-  <div style="font-size:11px;color:var(--muted);margin-top:8px;font-family:'Barlow',sans-serif">Source: Top Grade 2026 Price Sheet. Tons to order = in-place CY x conversion factor. No additional compaction factor needed when ordering by weight. Conversions: 1 SYD = 9 SF, 1 CY = 27 CF.</div>
+  <div style="font-size:11px;color:var(--muted);margin-top:8px;font-family:'Barlow',sans-serif;line-height:1.7">
+    Source: Top Grade 2026 Price Sheet.<br>
+    <strong style="color:var(--text)">Tons to order</strong> = in-place CY × T/CY factor — use this when supplier sells by weight.<br>
+    <strong style="color:var(--text)">CY to order (loose)</strong> = in-place CY × swell factor — use this when supplier sells by the yard.<br>
+    No additional compaction factor needed when ordering by weight.
+  </div>
 
 </div>
 
@@ -290,6 +311,7 @@ footer{text-align:center;padding:20px;font-size:11px;color:var(--border);letter-
 
 <script>
 let mode='lwh',depthFt=null;
+
 function setMode(m){
   mode=m;
   document.getElementById('lwh-inputs').style.display=m==='lwh'?'block':'none';
@@ -298,63 +320,111 @@ function setMode(m){
   document.getElementById('btn-lwh').classList.toggle('active',m==='lwh');
   document.getElementById('btn-sf').classList.toggle('active',m==='sf');
   document.getElementById('btn-syd').classList.toggle('active',m==='syd');
-  document.getElementById('results').classList.remove('show')
+  document.getElementById('results').classList.remove('show');
 }
-function setDepth(btn){document.querySelectorAll('.depth-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');const val=btn.dataset.in;const wrap=document.getElementById('custom-wrap');if(val==='custom'){wrap.classList.add('show');depthFt=null;document.getElementById('depth-custom').focus()}else{wrap.classList.remove('show');depthFt=parseFloat(val)/12}}
-document.getElementById('depth-custom').addEventListener('input',function(){const v=parseFloat(this.value);depthFt=isNaN(v)||v<=0?null:v/12});
-function updateSFPreview(){const l=parseFloat(document.getElementById('length').value),w=parseFloat(document.getElementById('width').value);const out=document.getElementById('sf-preview');if(!isNaN(l)&&!isNaN(w)&&l>0&&w>0){out.value=Math.round(l*w).toLocaleString()+' SF'}else{out.value=''}}
+
+function setDepth(btn){
+  document.querySelectorAll('.depth-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const val=btn.dataset.in;
+  const wrap=document.getElementById('custom-wrap');
+  if(val==='custom'){wrap.classList.add('show');depthFt=null;document.getElementById('depth-custom').focus()}
+  else{wrap.classList.remove('show');depthFt=parseFloat(val)/12}
+}
+
+document.getElementById('depth-custom').addEventListener('input',function(){
+  const v=parseFloat(this.value);depthFt=isNaN(v)||v<=0?null:v/12
+});
+
+function updateSFPreview(){
+  const l=parseFloat(document.getElementById('length').value),w=parseFloat(document.getElementById('width').value);
+  const out=document.getElementById('sf-preview');
+  if(!isNaN(l)&&!isNaN(w)&&l>0&&w>0){out.value=Math.round(l*w).toLocaleString()+' SF'}else{out.value=''}
+}
 document.getElementById('length').addEventListener('input',updateSFPreview);
 document.getElementById('width').addEventListener('input',updateSFPreview);
-document.getElementById('sqft').addEventListener('input',function(){const sf=parseFloat(this.value);document.getElementById('sf-to-syd').textContent=(!isNaN(sf)&&sf>0)?Math.round(sf/9).toLocaleString():'—'});
-document.getElementById('syd').addEventListener('input',function(){const sy=parseFloat(this.value);document.getElementById('syd-to-sf').textContent=(!isNaN(sy)&&sy>0)?Math.round(sy*9).toLocaleString():'—'});
+
+document.getElementById('sqft').addEventListener('input',function(){
+  const sf=parseFloat(this.value);
+  document.getElementById('sf-to-syd').textContent=(!isNaN(sf)&&sf>0)?Math.round(sf/9).toLocaleString():'—';
+});
+document.getElementById('syd').addEventListener('input',function(){
+  const sy=parseFloat(this.value);
+  document.getElementById('syd-to-sf').textContent=(!isNaN(sy)&&sy>0)?Math.round(sy*9).toLocaleString():'—';
+});
+
 function calculate(){
   document.querySelectorAll('.error').forEach(e=>e.classList.remove('show'));
   let valid=true,sf;
   if(mode==='lwh'){
     const l=parseFloat(document.getElementById('length').value),w=parseFloat(document.getElementById('width').value);
-    if(isNaN(l)||isNaN(w)||l<=0||w<=0)valid=false;else sf=l*w
-  } else if(mode==='sf'){
+    if(isNaN(l)||isNaN(w)||l<=0||w<=0)valid=false;else sf=l*w;
+  }else if(mode==='sf'){
     const s=parseFloat(document.getElementById('sqft').value);
-    if(isNaN(s)||s<=0)valid=false;else sf=s
-  } else if(mode==='syd'){
+    if(isNaN(s)||s<=0)valid=false;else sf=s;
+  }else{
     const sy=parseFloat(document.getElementById('syd').value);
-    if(isNaN(sy)||sy<=0)valid=false;else sf=sy*9
+    if(isNaN(sy)||sy<=0)valid=false;else sf=sy*9;
   }
   if(!depthFt){document.getElementById('err-depth').classList.add('show');valid=false}
-  const matSel=document.getElementById('material'),factor=parseFloat(matSel.value);
-  if(!factor){document.getElementById('err-material').classList.add('show');valid=false}
+  const matSel=document.getElementById('material');
+  const matVal=matSel.value;
+  if(!matVal){document.getElementById('err-material').classList.add('show');valid=false}
   if(!valid||!sf)return;
-  const cy=(sf*depthFt)/27,tons=cy*factor;
+
+  // Parse factor|swell from value field
+  const parts=matVal.split('|');
+  const factor=parseFloat(parts[0]);
+  const swell=parseFloat(parts[1]);
+
+  const cy=(sf*depthFt)/27;
+  const tons=cy*factor;
+  const cyLoose=cy*swell;
+
   const truckCY=parseFloat(document.getElementById('truck-cy').value);
   const truckTons=parseFloat(document.getElementById('truck-tons').value);
   const matName=matSel.options[matSel.selectedIndex].dataset.label||matSel.options[matSel.selectedIndex].text;
   const depthIn=Math.round(depthFt*12*100)/100;
+
   document.getElementById('res-tons').textContent=tons.toFixed(1);
+  document.getElementById('res-cy-loose').textContent=cyLoose.toFixed(1);
   document.getElementById('res-cy').textContent=cy.toFixed(1);
-  // Show area in SYD if mode is syd, otherwise SF
+
   if(mode==='syd'){
     document.getElementById('res-area').textContent=Math.round(sf/9).toLocaleString();
     document.getElementById('res-area-unit').textContent='SYD';
-  } else {
+  }else{
     document.getElementById('res-area').textContent=Math.round(sf).toLocaleString();
     document.getElementById('res-area-unit').textContent='SF';
   }
+
   const rowCY=document.getElementById('row-loads-cy');
-  if(!isNaN(truckCY)&&truckCY>0){document.getElementById('res-loads-cy').textContent=Math.ceil(cy/truckCY)+' @ '+truckCY+' CY';rowCY.classList.remove('hidden')}else{rowCY.classList.add('hidden')}
+  if(!isNaN(truckCY)&&truckCY>0){
+    document.getElementById('res-loads-cy').textContent=Math.ceil(cyLoose/truckCY)+' @ '+truckCY+' CY';
+    rowCY.classList.remove('hidden');
+  }else{rowCY.classList.add('hidden')}
+
   const rowTons=document.getElementById('row-loads-tons');
-  if(!isNaN(truckTons)&&truckTons>0){document.getElementById('res-loads-tons').textContent=Math.ceil(tons/truckTons)+' @ '+truckTons+' tons';rowTons.classList.remove('hidden')}else{rowTons.classList.add('hidden')}
+  if(!isNaN(truckTons)&&truckTons>0){
+    document.getElementById('res-loads-tons').textContent=Math.ceil(tons/truckTons)+' @ '+truckTons+' tons';
+    rowTons.classList.remove('hidden');
+  }else{rowTons.classList.add('hidden')}
+
   let formula;
   if(mode==='lwh'){
-    formula=`<strong>${document.getElementById('length').value} ft</strong> x <strong>${document.getElementById('width').value} ft</strong> = ${Math.round(sf).toLocaleString()} SF &rarr; ${depthIn}" deep &rarr; <strong>${cy.toFixed(2)} CY in-place</strong> x <strong>${factor}</strong> (${matName}) = <strong>${tons.toFixed(1)} tons</strong>`;
-  } else if(mode==='sf'){
-    formula=`<strong>${Math.round(sf).toLocaleString()} SF</strong> x <strong>${depthIn}"</strong> &divide; 27 = <strong>${cy.toFixed(2)} CY in-place</strong> x <strong>${factor}</strong> (${matName}) = <strong>${tons.toFixed(1)} tons</strong>`;
-  } else {
+    formula=`<strong>${document.getElementById('length').value} ft</strong> x <strong>${document.getElementById('width').value} ft</strong> = ${Math.round(sf).toLocaleString()} SF &rarr; ${depthIn}" deep &rarr; <strong>${cy.toFixed(2)} CY in-place</strong> x <strong>${factor}</strong> T/CY (${matName}) = <strong>${tons.toFixed(1)} tons</strong> &nbsp;|&nbsp; x <strong>${swell}</strong> swell = <strong>${cyLoose.toFixed(1)} CY loose</strong>`;
+  }else if(mode==='sf'){
+    formula=`<strong>${Math.round(sf).toLocaleString()} SF</strong> x <strong>${depthIn}"</strong> &divide; 27 = <strong>${cy.toFixed(2)} CY in-place</strong> x <strong>${factor}</strong> T/CY (${matName}) = <strong>${tons.toFixed(1)} tons</strong> &nbsp;|&nbsp; x <strong>${swell}</strong> swell = <strong>${cyLoose.toFixed(1)} CY loose</strong>`;
+  }else{
     const syd=sf/9;
-    formula=`<strong>${Math.round(syd).toLocaleString()} SYD</strong> x 9 = ${Math.round(sf).toLocaleString()} SF &rarr; <strong>${depthIn}"</strong> deep &rarr; <strong>${cy.toFixed(2)} CY in-place</strong> x <strong>${factor}</strong> (${matName}) = <strong>${tons.toFixed(1)} tons</strong>`;
+    formula=`<strong>${Math.round(syd).toLocaleString()} SYD</strong> x 9 = ${Math.round(sf).toLocaleString()} SF &rarr; <strong>${depthIn}"</strong> &rarr; <strong>${cy.toFixed(2)} CY in-place</strong> x <strong>${factor}</strong> T/CY (${matName}) = <strong>${tons.toFixed(1)} tons</strong> &nbsp;|&nbsp; x <strong>${swell}</strong> swell = <strong>${cyLoose.toFixed(1)} CY loose</strong>`;
   }
   document.getElementById('formula-note').innerHTML=formula;
-  const results=document.getElementById('results');results.classList.add('show');results.scrollIntoView({behavior:'smooth',block:'nearest'})
+  const results=document.getElementById('results');
+  results.classList.add('show');
+  results.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
+
 document.addEventListener('keydown',e=>{if(e.key==='Enter')calculate()});
 </script>
 </body>
